@@ -30,6 +30,11 @@
 					</td>
 					<td><%= link_to book.title, book_path(book), class: "book_#{book.id}" %></td>
 					<td><%= book.body %></td>
+			<!-- いいね機能 -->
+					<td>
+					  <%= render 'books/favorite',user_id: current_user.id, book: @book %>
+					</td>
+			<!-- いいね機能ここまで -->
 				</tr>
 				<% end %>
 			</tbody>
