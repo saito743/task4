@@ -37,7 +37,10 @@
 					    <% end %>
 					  <% end %>
 					</td>
-			<!-- いいね機能ここまで -->
+			<!--　コメント機能追加　-->
+					<td>
+					  <p>コメント数：<%= @book.comments.count %></p>
+					</td>
 					<% if @book.user == current_user %>
 
 					  <td><%= link_to "Edit", edit_book_path(@book), class: "btn-sm btn-success edit_book_#{@book.id}" %></td>
@@ -45,7 +48,26 @@
 					<% end %>
 				</tr>
 			</table>
-
+			<ol>
+			  <% @book.comments.each do |post_comment| %>
+			    <li>
+			      <%= attachment_image_tag(post_comment.user, :profile_image, :fill, 100, 100, fallback: "no-image-mini.jpg") %>
+			      <%= post_comment.comment %>
+			      <% if post_comment.user == current_user %>
+			        <%= link_to "Delete", book_comments_path(post_comment.book, post_comment), method: :delete,  class: "btn btn-danger" %>
+			      <% end %><br>
+			      <%= post_comment.user.name %>
+			    </li>
+			  <% end %>
+			</ol>
+			<%= form_for [@book,@comment] do |f| %>
+			  <div class="row">
+			  	<div class="col-xs-12">
+			  	  <%= f.text_area :comment, rows:'5', class:"col-xs-12" %>
+			  	  <%= f.submit "送信" %>
+			  	</div>
+			  </div>
+			<% end %>
 	</div>
 </div>
 
